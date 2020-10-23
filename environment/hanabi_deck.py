@@ -62,6 +62,7 @@ class HanabiDeck:
     def reset(self):
         """ Reset the deck for a new game.  """
         self._deck = self._create_random_deck()
+        self._pointer = 0
 
     def render(self):
         remaining = list(map(str, self._deck[self._pointer:]))

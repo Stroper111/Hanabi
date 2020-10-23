@@ -35,17 +35,22 @@ class Hanabi:
               f"\n\t- Cards remaining: {self.deck.remaining}")
         [player.render(can_see=player.id != self.info['current_player']) for player in self.players]
 
+    def render_step(self):
+        print(f"\nPlayer: {self.info['current_player']}:\n\t-", '\n\t- '.join(self.log[self.info['turns_played']]))
+
     def step(self, action: Actions):
         """ Action Tuple.  """
         # noinspection PyArgumentList
         obs, reward, done, info = self.action_mapping.get(action.id)(action)
-        print(f"\nPlayer: {self.info['current_player']}:\n\t-", '\n\t- '.join(self.log[self.info['turns_played']]))
         self.info['turns_played'] += 1
         self.info['current_player'] = (self.info['current_player'] + 1) % len(self.agents)
         return obs, reward, done, info
 
     def reset(self):
+        self.deck.reset()
         self.players = [HanabiPlayer(idx, self.deck.provide_hand(self.hand_size)) for idx in range(len(self.agents))]
+        self.log = defaultdict(list)
+        self.info = self._create_info()
 
     def _action_play(self, action):
         player = self.players[self.info['current_player']]
@@ -84,6 +89,7 @@ class Hanabi:
 
     def _handle_discard(self, card):
         self.info['card_discarded'][card.color].append(card.rank.value)
+        self.info['fuses'] += 1
         self.log[self.info['turns_played']].append(f"Discard card: {card}")
         return True
 

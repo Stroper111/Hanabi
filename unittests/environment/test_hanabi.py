@@ -44,7 +44,20 @@ class TestHanabi(unittest.TestCase):
         done = False
         while not done:
             env.render()
-            env.step(Actions.sample(hand_size=4, players=4, hints=env.info['hints']))
+            action = Actions.sample(hand_size=4, players=4, hints=env.info['hints'])
+            obs, reward, done, info = env.step(action)
+
+    def test_speed_runs(self):
+        env = Hanabi(agents=list('1234'), hand_size=4)
+        steps = 0
+        for episode in range(1, 1_001):
+            done = False
+            env.reset()
+            while not done:
+                action = Actions.sample(hand_size=4, players=4, hints=env.info['hints'])
+                obs, reward, done, info = env.step(action)
+                steps += 1
+            print(f"\rEpisode: {episode:4d}/1000, steps: {steps:6d}", end='')
 
 
 if __name__ == '__main__':
