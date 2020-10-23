@@ -1,8 +1,8 @@
 import random
-from enum import Enum
-from typing import Tuple
 
-from colorama import Fore, Style
+from enum import Enum
+
+from environment.utils.ansi import Fore, Style
 
 COLOR_STRING = list('RGBWYM?')
 

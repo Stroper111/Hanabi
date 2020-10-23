@@ -1,7 +1,7 @@
 import unittest
 
 from environment import Hanabi
-from environment.constants import Actions
+from environment.utils.constants import Actions
 
 
 class TestHanabi(unittest.TestCase):

@@ -3,9 +3,8 @@ import random
 from itertools import product
 from typing import List
 
-from colorama import Fore, Style
-
-from environment.constants import Colors, Rank
+from environment.utils.ansi import Fore, Style
+from environment.utils.constants import Colors, Rank
 
 
 class HanabiCard:

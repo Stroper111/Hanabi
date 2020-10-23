@@ -1,7 +1,7 @@
 import unittest
 
 from environment import HanabiPlayer, HanabiDeck, HanabiCard
-from environment.constants import Rank, Colors
+from environment.utils.constants import Rank, Colors
 
 
 class TestHanabiPlayer(unittest.TestCase):

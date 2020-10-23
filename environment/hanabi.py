@@ -4,7 +4,7 @@ import numpy as np
 from collections import defaultdict, namedtuple
 
 from environment import HanabiDeck, HanabiPlayer
-from environment.constants import Colors, Actions
+from environment.utils.constants import Colors, Actions
 
 
 class Hanabi:

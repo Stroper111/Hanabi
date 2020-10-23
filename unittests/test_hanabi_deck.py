@@ -1,7 +1,7 @@
 import unittest
 from itertools import product
 
-from environment.constants import Colors, Rank
+from environment.utils.constants import Colors, Rank
 
 from environment import HanabiCard, HanabiDeck
 
