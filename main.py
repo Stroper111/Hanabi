@@ -1,16 +1,11 @@
-# This is a sample Python script.
+from environment import Hanabi
+from environment.constants import Actions
 
-# Press F7 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    env = Hanabi(agents=list('1234'))
+    obs = env.reset()
+    done = False
+    while not done:
+        action = Actions.sample(hand_size=env.hand_size, players=len(env.players), hints=env.hints)
+        obs, reward, done, info = env.step(action)
+        env.render()

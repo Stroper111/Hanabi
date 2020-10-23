@@ -53,11 +53,12 @@ class TestHanabi(unittest.TestCase):
         for episode in range(1, 1_001):
             done = False
             env.reset()
+            reward = 0
             while not done:
                 action = Actions.sample(hand_size=4, players=4, hints=env.info['hints'])
                 obs, reward, done, info = env.step(action)
                 steps += 1
-            print(f"\rEpisode: {episode:4d}/1000, steps: {steps:6d}", end='')
+            print(f"\rEpisode: {episode:4d}/1000, steps: {steps:6d}, reward: {reward}", end='')
 
 
 if __name__ == '__main__':

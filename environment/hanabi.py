@@ -17,7 +17,7 @@ class Hanabi:
         self.colors = [color for idx, color in enumerate(Colors) if idx <= number_of_colors]
 
         self.deck = HanabiDeck(colors=self.colors)
-        self.players = [HanabiPlayer(idx, self.deck.provide_hand(hand_size)) for idx in range(len(agents))]
+        self.players = [HanabiPlayer(idx, self.deck.provide_hand(self.hand_size)) for idx in range(len(agents))]
         self.obs_index, self.observation = self._create_observation_index()
 
         self.log = defaultdict(list)
@@ -32,23 +32,32 @@ class Hanabi:
             3: lambda action: self._action_discard(action),
         }
 
+    @property
+    def hints(self):
+        return self.info['hints']
+
+    @property
+    def current_player(self):
+        return self.info['current_player']
+
     def render(self):
         print(f"\n\nGeneral information:"
-              f"\n\t- Current player: {self.info['current_player']}"
+              f"\n\t- Current player: {self.current_player}, on turn: {self.info['turns_played']}"
               f"\n\t- Hint tokens: {self.info['hints']}"
               f"\n\t- Fuse tokens: {self.info['fuses']}"
               f"\n\t- Cards remaining: {self.deck.remaining}")
-        [player.render(can_see=player.id != self.info['current_player']) for player in self.players]
+        [player.render(can_see=player.id != self.current_player) for player in self.players]
+        self.render_step()
 
     def render_step(self):
-        print(f"\nPlayer: {self.info['current_player']}:\n\t-", '\n\t- '.join(self.log[self.info['turns_played']]))
+        print(f"\nPlayer: {self.current_player}:\n\t-", '\n\t- '.join(self.log[self.info['turns_played'] - 1]))
 
     def step(self, action: Actions):
         """ Action Tuple.  """
-        self.log_moves[self.info['turns_played']] = (self.info['current_player'], action)
+        self.info['current_player'] = (self.current_player + 1) % len(self.agents)
+        self.log_moves[self.info['turns_played']] = (self.current_player, action)
         obs, reward, done, info = self.action_mapping.get(action.id)(action)
         self.info['turns_played'] += 1
-        self.info['current_player'] = (self.info['current_player'] + 1) % len(self.agents)
         return obs, reward, done, info
 
     def reset(self):
@@ -56,9 +65,10 @@ class Hanabi:
         self.players = [HanabiPlayer(idx, self.deck.provide_hand(self.hand_size)) for idx in range(len(self.agents))]
         self.log = defaultdict(list)
         self.info = self._create_info()
+        return self._get_observation()
 
     def _action_play(self, action):
-        player = self.players[self.info['current_player']]
+        player = self.players[self.current_player]
         card = player.play(index=action.index)
         self._handle_play(card)
         self._handle_draw(player)
@@ -77,7 +87,7 @@ class Hanabi:
         return self._handle_returns()
 
     def _action_discard(self, action):
-        player = self.players[self.info['current_player']]
+        player = self.players[self.current_player]
         card = player.discard(index=action.index)
         self._handle_discard(card)
         self._handle_draw(player)
