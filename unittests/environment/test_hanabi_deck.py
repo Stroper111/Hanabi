@@ -8,18 +8,20 @@ from environment import HanabiCard, HanabiDeck
 
 class TestHanabiCard(unittest.TestCase):
     def test_colors(self):
-        for color, rank in product(Colors, Rank):
-            card = HanabiCard(color, rank)
-            print(card, end=' ')
+        for colors in [Colors.normal(), Colors.difficult()]:
+            for color, rank in product(colors, Rank):
+                card = HanabiCard(color, rank)
+                print(card, end=' ')
+            print(end="\n\n")
 
 
 class TestHanabiDeck(unittest.TestCase):
     def test_deck(self):
-        deck = HanabiDeck()
+        deck = HanabiDeck(colors=Colors.difficult())
         deck.render()
         self.assertEqual(60, len(deck._cards), "Wrong number of cards for 6 colors")
 
-        deck = HanabiDeck(colors=[color for color in Colors if color.value != 'M'])
+        deck = HanabiDeck(colors=Colors.normal())
         deck.render()
         self.assertEqual(50, len(deck._cards), "Wrong number of cards for 5 colors")
 
@@ -29,8 +31,6 @@ class TestHanabiDeck(unittest.TestCase):
         deck._pointer = 25
 
         remaining, played = deck.render()
-        deck.render()
-
         self.assertEqual(25, len(played), f"Number of played is not consistent with deck pointer.")
 
     def test_hand_cards(self):
@@ -45,18 +45,18 @@ class TestHanabiDeck(unittest.TestCase):
         while not deck.empty:
             deck.draw()
             cards_drawn += 1
-        self.assertEqual(60, cards_drawn, "The number of drawn cards is not equal to the deck size.")
+        self.assertEqual(50, cards_drawn, "The number of drawn cards is not equal to the deck size.")
 
     def test_remaining(self):
         deck = HanabiDeck()
-        for remaining in reversed(range(60)):
+        for remaining in reversed(range(50)):
             deck.draw()
             self.assertEqual(remaining, deck.remaining, "The number of drawn cards is not equal to the deck size.")
 
     def test_empty_with_player_hands(self):
         deck = HanabiDeck()
         deck.provide_hand(hand_size=5)
-        for remaining in reversed(range(55)):
+        for remaining in reversed(range(45)):
             deck.draw()
             self.assertEqual(remaining, deck.remaining, "The number of drawn cards is not equal to the deck size.")
 

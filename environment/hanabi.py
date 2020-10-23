@@ -102,7 +102,7 @@ class Hanabi:
         color = Colors.color(action.index)
         self.players[action.player].inform_color(color)
         self.info['hints'] -= 1
-        self.log[self.info['turns_played']].append(f"Informed player: {action.player} of color: {color.get(color)}")
+        self.log[self.info['turns_played']].append(f"Informed player: {action.player} of color: {color.get}")
         return True
 
     def _handle_inform_rank(self, action):

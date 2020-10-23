@@ -47,6 +47,6 @@ class HanabiPlayer:
         self._info.insert(0, (Colors.UNKNOWN, Rank.UNKNOWN))
 
     def obs(self):
-        data = [(card.index, card.rank, Colors.index(color), rank.value)
+        data = [(card.index, card.rank, color.index, rank.value)
                 for card, (color, rank) in zip(self._hand, self._info)]
         return data

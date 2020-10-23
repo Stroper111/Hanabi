@@ -35,7 +35,7 @@ class HanabiCard:
 
     @property
     def index(self):
-        return Colors.index(self._color)
+        return self._color.index
 
     @staticmethod
     def colored(text, color):
@@ -45,10 +45,10 @@ class HanabiCard:
 class HanabiDeck:
     ranks = (Rank.ONE, Rank.ONE, Rank.ONE, Rank.TWO, Rank.TWO, Rank.THREE, Rank.THREE, Rank.FOUR, Rank.FOUR, Rank.FIVE)
 
-    def __init__(self, colors: List[Colors] = Colors, ranks: List[Rank] = None):
-        self._colors = colors
+    def __init__(self, colors=None, ranks: List[Rank] = None):
+        self._colors = Colors.normal() if colors is None else [color for color in colors if color != Colors.UNKNOWN]
         self._ranks = ranks if ranks is not None else self.ranks
-        self._cards = list(product(colors, self._ranks))
+        self._cards = list(product(self._colors, self._ranks))
         self._deck = self._create_random_deck()
         self._pointer = 0
 
@@ -76,7 +76,7 @@ class HanabiDeck:
     def render(self):
         remaining = list(map(str, self._deck[self._pointer:]))
         played = list(map(str, self._deck[:self._pointer]))
-        print(f"Deck:\n\t- Remaining: {' '.join(remaining)}\n\t- Played   : {' '.join(played)}")
+        print(f"\nDeck:\n\t- Remaining: {' '.join(remaining)}\n\t- Played   : {' '.join(played)}")
         return remaining, played
 
     def provide_hand(self, hand_size=5):

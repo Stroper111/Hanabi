@@ -1,5 +1,7 @@
 import random
 from enum import Enum
+from typing import Tuple
+
 from colorama import Fore, Style
 
 COLOR_STRING = list('RGBWYM?')
@@ -15,14 +17,22 @@ class Colors(Enum):
     UNKNOWN = '?'
 
     @staticmethod
-    def get(color: 'Colors') -> str:
-        """ Returns the color value in the right color.  """
-        return getattr(Fore, color.name) + Style.BRIGHT + color.value + Style.RESET_ALL
+    def normal():
+        return Colors.RED, Colors.GREEN, Colors.LIGHTBLUE_EX, Colors.BLACK, Colors.LIGHTYELLOW_EX
 
     @staticmethod
-    def index(color: 'Colors') -> int:
+    def difficult():
+        return Colors.RED, Colors.GREEN, Colors.LIGHTBLUE_EX, Colors.BLACK, Colors.LIGHTYELLOW_EX, Colors.MAGENTA
+
+    @property
+    def get(self) -> str:
+        """ Returns the color value in the right color.  """
+        return getattr(Fore, self.name) + Style.BRIGHT + self.value + Style.RESET_ALL
+
+    @property
+    def index(self) -> int:
         """ Return the index of a color object.  """
-        return COLOR_STRING.index(color.value)
+        return COLOR_STRING.index(self.value)
 
     @staticmethod
     def color(index: int) -> 'Colors':
