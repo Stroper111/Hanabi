@@ -2,7 +2,7 @@ import random
 from enum import Enum
 from colorama import Fore, Style
 
-COLOR_STRING = list('RGBWYM')
+COLOR_STRING = list('RGBWYM?')
 
 
 class Colors(Enum):
@@ -12,6 +12,7 @@ class Colors(Enum):
     BLACK = 'W'  # This is more white, than actual White (which is more gray)
     LIGHTYELLOW_EX = 'Y'
     MAGENTA = 'M'
+    UNKNOWN = '?'
 
     @staticmethod
     def get(color: 'Colors') -> str:
@@ -26,10 +27,11 @@ class Colors(Enum):
     @staticmethod
     def color(index: int) -> 'Colors':
         """ Return a Colors object, based on an index.  """
-        return [color for color in Colors if color.value == COLOR_STRING[index]].pop(0)
+        return Colors(COLOR_STRING[index])
 
 
 class Rank(Enum):
+    UNKNOWN = 0
     ONE = 1
     TWO = 2
     THREE = 3
@@ -46,6 +48,13 @@ class Actions:
     id: int = None
     index: int = None
     player: int = None
+
+    mapping = {
+        0: "Played: {}",
+        1: "Inform color: {}, to player: {}",
+        2: "Inform rank: {}, to player: {}",
+        3: "Discard: {}",
+    }
 
     def __init__(self, action_id, index, player=None):
         self.id = action_id
@@ -80,3 +89,13 @@ class Actions:
         if hints:
             action = random.choice([Actions.PLAY, Actions.INFORM_COLOR, Actions.INFORM_RANK, Actions.DISCARD])
         return action(index=random.randint(1, hand_size - 1), player=random.randint(0, players - 1))
+
+    @property
+    def humanize(self):
+        message = self.mapping.get(self.id)
+        message.format((self.index, self.player) if self.player is not None else (self.index,))
+        return message
+
+    @property
+    def obs(self):
+        return self.id, self.index, self.player

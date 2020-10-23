@@ -12,7 +12,7 @@ class HanabiCard:
     def __init__(self, color: Colors, rank: Rank):
         self._color = color
         self._rank = rank
-        self._text = self.colored(text=f"{self._color.value}{self.rank.value}", color=self._color.name)
+        self._text = self.colored(text=f"{self.color}{self.rank}", color=self._color.name)
 
     def __str__(self):
         return self._text
@@ -20,13 +20,22 @@ class HanabiCard:
     def __repr__(self):
         return f"<class {type(self).__name__}, ({self._text})>"
 
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self._text == other._text
+        return False
+
     @property
     def color(self):
         return self._color.name[0]
 
     @property
     def rank(self):
-        return self._rank
+        return self._rank.value
+
+    @property
+    def index(self):
+        return Colors.index(self._color)
 
     @staticmethod
     def colored(text, color):

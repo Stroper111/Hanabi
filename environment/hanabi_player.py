@@ -8,7 +8,7 @@ class HanabiPlayer:
     def __init__(self, player_id: int, cards: List[HanabiCard]):
         self.id = player_id
         self._hand = cards
-        self._info = [('?', '?') for _ in range(len(cards))]
+        self._info = [(Colors.UNKNOWN, Rank.UNKNOWN) for _ in range(len(cards))]
 
     def render(self, can_see=True):
         """
@@ -33,23 +33,20 @@ class HanabiPlayer:
 
     def inform_color(self, info_color: Colors):
         """ Update the player information with the color information.  """
-        info = []
-        for card, (color, rank) in zip(self._hand, self._info):
-            if card.color == info_color.name[0]:
-                color = info_color.get(info_color)
-            info.append((color, rank))
-        self._info = info
+        self._info = [(info_color if color == info_color else color, rank)
+                      for card, (color, rank) in zip(self._hand, self._info)]
 
-    def inform_rank(self, info_rank: int):
+    def inform_rank(self, info_rank: Rank):
         """ Update the player information with the rank information.  """
-        info = []
-        for card, (color, rank) in zip(self._hand, self._info):
-            if card.rank.value == info_rank:
-                rank = info_rank
-            info.append((color, rank))
-        self._info = info
+        self._info = [(color, info_rank if rank == info_rank else rank)
+                      for card, (color, rank) in zip(self._hand, self._info)]
 
     def add_card(self, card):
         """ Add a new card to the player hand.   """
         self._hand.insert(0, card)
-        self._info.insert(0, ('?', '?'))
+        self._info.insert(0, (Colors.UNKNOWN, Rank.UNKNOWN))
+
+    def obs(self):
+        data = [(card.index, card.rank, Colors.index(color), rank.value)
+                for card, (color, rank) in zip(self._hand, self._info)]
+        return data
