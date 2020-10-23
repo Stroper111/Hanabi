@@ -154,7 +154,7 @@ Example of a game render.
 - And finally all the actions performed by that player are displayed.
 
 
-![alt text](./resources/images/render.png)
+![](./resources/images/render.png)
 
 
 
