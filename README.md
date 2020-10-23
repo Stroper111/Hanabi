@@ -154,7 +154,8 @@ Example of a game render.
 - And finally all the actions performed by that player are displayed.
 
 
-<img src="resources/images/render.png" width="359" />
+![](./resources/images/render.png)
+
 
 
 ### TODO
