@@ -4,7 +4,7 @@ from enum import Enum
 
 from environment.utils.ansi import Fore, Style
 
-COLOR_STRING = list('RGBWYM?')
+COLOR_STRING = list('?RGBWYM')
 
 
 class Colors(Enum):

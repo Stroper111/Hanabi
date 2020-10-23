@@ -14,7 +14,7 @@ class Hanabi:
 
         self.agents = agents
         self.hand_size = hand_size if hand_size is not None else 5 if len(agents) <= 3 else 4
-        self.colors = [color for idx, color in enumerate(Colors) if idx <= number_of_colors]
+        self.colors = [color for idx, color in enumerate(Colors.difficult()) if idx < number_of_colors]
 
         self.deck = HanabiDeck(colors=self.colors)
         self.players = [HanabiPlayer(idx, self.deck.provide_hand(self.hand_size)) for idx in range(len(agents))]
@@ -154,6 +154,7 @@ class Hanabi:
         data['info'] = {key: value for key, value in self.info.items() if not key.startswith('cards_')}
         data['moves'] = list(self.log_moves.values())[:min(len(self.log_moves), len(self.players) - 1)]
         data['colors'] = self.colors
+        data['turns log'] = self.log
         return data
 
     def _create_info(self):
