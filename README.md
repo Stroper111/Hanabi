@@ -10,10 +10,6 @@ A simple Hanabi learning environment for multiple agents.
 - [x] Basic unittests
 
 
-#### Rendering
-![img](resources/images/render.png)
-
-
 #### Observation
 
 - Hands: ndarray(num player, hands size, 4))
@@ -147,6 +143,19 @@ A simple Hanabi learning environment for multiple agents.
 	    - Turn 14: Discard card: B4 Drew card: Y3
 	    - Turn 15: Discard card: W4 Drew card: R2
     ```
+
+
+#### Rendering
+
+Example of a game render. 
+
+- First all of the general information is provided, this incldues information over hint tokens and fuses.
+- Then all the player hands are shown, except the players hand whose turn it is.
+- And finally all the actions performed by that player are displayed.
+
+
+![](./resources/images/render.png)
+
 
 
 ### TODO
