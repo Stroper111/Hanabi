@@ -26,7 +26,7 @@ class HanabiCard:
 
     @property
     def color(self):
-        return self._color.name[0]
+        return self._color.value
 
     @property
     def rank(self):
