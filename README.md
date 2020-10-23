@@ -11,7 +11,7 @@ A simple Hanabi learning environment for multiple agents.
 
 
 #### Rendering
-![img](resources/images/render.png)
+![](resources/images/render.png)
 
 
 #### Observation
