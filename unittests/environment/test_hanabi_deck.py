@@ -53,6 +53,13 @@ class TestHanabiDeck(unittest.TestCase):
             deck.draw()
             self.assertEqual(remaining, deck.remaining, "The number of drawn cards is not equal to the deck size.")
 
+    def test_empty_with_player_hands(self):
+        deck = HanabiDeck()
+        deck.provide_hand(hand_size=5)
+        for remaining in reversed(range(55)):
+            deck.draw()
+            self.assertEqual(remaining, deck.remaining, "The number of drawn cards is not equal to the deck size.")
+
 
 if __name__ == '__main__':
     unittest.main()

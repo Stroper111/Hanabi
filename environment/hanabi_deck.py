@@ -1,6 +1,8 @@
 import random
 
 from itertools import product
+from typing import List
+
 from colorama import Fore, Style
 
 from environment.constants import Colors, Rank
@@ -10,7 +12,7 @@ class HanabiCard:
     def __init__(self, color: Colors, rank: Rank):
         self._color = color
         self._rank = rank
-        self._text = self.colored(text=f"{self._color.get(self._color)}{self.rank.value}", color=self._color.name)
+        self._text = self.colored(text=f"{self._color.value}{self.rank.value}", color=self._color.name)
 
     def __str__(self):
         return self._text
@@ -20,7 +22,7 @@ class HanabiCard:
 
     @property
     def color(self):
-        return self._color
+        return self._color.name[0]
 
     @property
     def rank(self):
@@ -34,8 +36,10 @@ class HanabiCard:
 class HanabiDeck:
     ranks = (Rank.ONE, Rank.ONE, Rank.ONE, Rank.TWO, Rank.TWO, Rank.THREE, Rank.THREE, Rank.FOUR, Rank.FOUR, Rank.FIVE)
 
-    def __init__(self, colors=Colors):
-        self._cards = list(product(colors, self.ranks))
+    def __init__(self, colors: List[Colors] = Colors, ranks: List[Rank] = None):
+        self._colors = colors
+        self._ranks = ranks if ranks is not None else self.ranks
+        self._cards = list(product(colors, self._ranks))
         self._deck = self._create_random_deck()
         self._pointer = 0
 
