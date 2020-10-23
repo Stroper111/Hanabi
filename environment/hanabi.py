@@ -166,8 +166,8 @@ class Hanabi:
                 players=len(self.players),
                 current_player=random.randint(0, len(self.agents) - 1),
 
-                cards_played={color.name[0]: 0 for color in self.colors},
-                cards_discarded={color.name[0]: [] for color in self.colors},
+                cards_played={color.value: 0 for color in self.colors},
+                cards_discarded={color.value: [] for color in self.colors},
         )
 
     def _create_observation_index(self):

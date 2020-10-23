@@ -1,5 +1,5 @@
 from environment import Hanabi
-from environment.constants import Actions
+from environment.utils.constants import Actions
 
 if __name__ == '__main__':
     env = Hanabi(agents=list('1234'))
