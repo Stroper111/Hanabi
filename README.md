@@ -156,12 +156,3 @@ Example of a game render.
 
 ![](./resources/images/render.png)
 
-
-
-### TODO
-
-- [ ] Add automatic testing, currently most tests are visual.
-- [ ] Add Agent examples
-- [ ] Add environmental rendering (fancy way)
-
-
