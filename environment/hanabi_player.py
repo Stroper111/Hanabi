@@ -19,7 +19,8 @@ class HanabiPlayer:
         """
         print(f"\nPlayer: {self.id}")
         for card, (color, rank) in zip(self._hand, self._info):
-            print(f"\t{str(card)} || {color}{rank}") if can_see else print(f"\t?? || {color}{rank}")
+            rank = rank.value if rank.value > 0 else '?'
+            print(f"\t{card} || {color.value}{rank}") if can_see else print(f"\t?? || {color.value}{rank}")
 
     def play(self, index):
         """ PLay a card from the player hand.  (similar to discard)  """
